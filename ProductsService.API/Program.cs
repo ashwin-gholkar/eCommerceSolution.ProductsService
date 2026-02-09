@@ -1,6 +1,7 @@
 using BusinessLogicLayer;
 using DataAccessLayer;
 using FluentValidation.AspNetCore;
+using ProductsService.API.APIEndpoints;
 using ProductsService.API.MIddleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,5 +23,6 @@ app.UseAuthorization();
 
 
 app.MapControllers();
+app.MapProductAPIEndpoints();
 
 app.Run();

@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryContracts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,29 +25,52 @@ namespace DataAccessLayer.Repositories
             return product;
         }
 
-        public Task<bool> DeleteProduct(Guid productID)
+        public async Task<bool> DeleteProduct(Guid productID)
         {
-            throw new NotImplementedException();
+            Product? exisitingProduct = await
+                _dbContext.Products.FirstOrDefaultAsync(temp => temp.ProductID == productID);
+            if (exisitingProduct == null)
+            {
+                return false;
+            }
+                _dbContext.Products.Remove(exisitingProduct);
+                return await _dbContext.SaveChangesAsync() > 0 ? true : false;
         }
 
-        public Task<Product?> GetProductByCondition(Expression<Func<Product, bool>> conditionExpressopn)
+        public async Task<Product?> GetProductByCondition(Expression<Func<Product, bool>> conditionExpressopn)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Products
+                        .FirstOrDefaultAsync(conditionExpressopn);
         }
 
-        public Task<IEnumerable<Product>> GetProducts()
+        public async Task<IEnumerable<Product>> GetProducts()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Products
+                         .ToListAsync();
         }
 
-        public Task<IEnumerable<Product?>> GetProductsByCondition(Expression<Func<Product, bool>> conditionExpressopn)
+        public async Task<IEnumerable<Product?>> GetProductsByCondition(Expression<Func<Product, bool>> conditionExpressopn)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Products
+                        .Where(conditionExpressopn).ToListAsync();
         }
 
-        public Task<Product?> UpdateProduct(Product product)
+        public async Task<Product?> UpdateProduct(Product product)
         {
-            throw new NotImplementedException();
+            Product? exisitingProduct = await
+                _dbContext.Products.FirstOrDefaultAsync(temp => temp.ProductID == product.ProductID);
+            if (exisitingProduct == null)
+            {
+                return null;
+            }
+            exisitingProduct.ProductName = product.ProductName;
+            exisitingProduct.Category = product.Category;
+            exisitingProduct.UnitPrice = product.UnitPrice;
+            exisitingProduct.QuantityInStock = product.QuantityInStock;
+
+            await _dbContext.SaveChangesAsync();
+            return exisitingProduct;
+
         }
     }
 }

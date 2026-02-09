@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DataAccessLayer.Repositories;
+using DataAccessLayer.RepositoryContracts;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,7 +16,7 @@ namespace DataAccessLayer
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
-
+            services.AddScoped<IProductsRepository, ProductsRepository>();
             return services;
         }
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using BusinessLogicLayer.Mappers;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,11 @@ namespace BusinessLogicLayer
         {
             public static IServiceCollection AddBusinessLogicLayer(this IServiceCollection services)
             {
-                // Register your data access services here
-                // For example:
-                // services.AddScoped<IYourRepository, YourRepository>();
+            // Register your data access services here
+            // For example:
+            services.AddAutoMapper(cfg =>
+            { },
+            typeof(ProductAddRequestToProductMappingProfile).Assembly);
                 return services;
             }
         }
