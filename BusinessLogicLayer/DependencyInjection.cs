@@ -17,5 +17,4 @@ namespace BusinessLogicLayer
                 return services;
             }
         }
-    }
 }
