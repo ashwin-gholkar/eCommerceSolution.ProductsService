@@ -1,10 +1,9 @@
 ﻿using BusinessLogicLayer.Mappers;
+using BusinessLogicLayer.ServiceContract;
+using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Validators;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogicLayer
 {
@@ -17,6 +16,10 @@ namespace BusinessLogicLayer
             services.AddAutoMapper(cfg =>
             { },
             typeof(ProductAddRequestToProductMappingProfile).Assembly);
+
+            services.AddValidatorsFromAssemblyContaining<ProdcutAddRequestValidator>();
+            services.AddScoped<IProductService, ProductService>();
+            
                 return services;
             }
         }

@@ -14,7 +14,7 @@ namespace DataAccessLayer
             // For example:
             // services.AddScoped<IYourRepository, YourRepository>();
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("ProductsService.API")));
 
             services.AddScoped<IProductsRepository, ProductsRepository>();
             return services;
