@@ -35,14 +35,14 @@ namespace ProductsService.API.APIEndpoints
 
                 List<ProductResponse?> productsByProductName = await productService.
                                             GetProductsByCondition(x =>  x.ProductName !=null &&
-                                            x.ProductName.Contains
-                                            (SearchString,StringComparison.OrdinalIgnoreCase));
+                                            x.ProductName.ToLower().Contains
+                                            (SearchString.ToLower()));
 
 
                 List<ProductResponse?> productsByCategoryName = await productService.
                                             GetProductsByCondition(x => x.Category != null &&
-                                            x.Category.Contains
-                                            (SearchString, StringComparison.OrdinalIgnoreCase));
+                                            x.Category.ToLower().Contains
+                                            (SearchString.ToLower()));
 
                 var products= productsByProductName.Union
                                 (productsByCategoryName).ToList();
